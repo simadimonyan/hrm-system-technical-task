@@ -1,0 +1,84 @@
+
+services:
+
+  companies-service:
+    container_name: company-service
+    build:
+      context: ./company-service
+      dockerfile: Dockerfile
+    ports:
+      - 8082:8082
+    networks:
+      - hrm-network
+
+  employee-service:
+    container_name: employee-service
+    build:
+      context: ./employee-service
+      dockerfile: Dockerfile
+    ports:
+      - 8081:8081
+    networks:
+      - hrm-network
+
+  config-service:
+    container_name: config-service
+    build:
+      context: ./config-service
+      dockerfile: Dockerfile
+    ports:
+      - 8083:8083
+    networks:
+      - hrm-network
+
+  company-db:
+    container_name: company-db
+    image: postgres:latest
+    restart: always
+    user: postgres
+    volumes:
+      - company-db-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=${COMPANY_POSTGRES_DB}
+      - POSTGRES_PASSWORD=${COMPANY_POSTGRES_PASSWORD}
+    expose:
+      - 5433
+    ports:
+      - 5433:5433
+    healthcheck:
+      test: [ "CMD", "pg_isready" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - hrm-network
+
+  employee-db:
+    container_name: employee-db
+    image: postgres:latest
+    restart: always
+    user: postgres
+    volumes:
+      - employee-db-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=${EMPLOYEE_POSTGRES_DB}
+      - POSTGRES_PASSWORD=${EMPLOYEE_POSTGRES_PASSWORD}
+    expose:
+      - 5432
+    ports:
+      - 5432:5432
+    healthcheck:
+      test: [ "CMD", "pg_isready" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - hrm-network
+
+volumes:
+  employee-db-data:
+  company-db-data:
+
+networks:
+  hrm-network:
+    driver: bridge

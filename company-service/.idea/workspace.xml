@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="e4eead7e-14e2-4015-a977-cdb7b135b622" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/bootstrap.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../config-service/.gradle/8.10/checksums/md5-checksums.bin" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../config-service/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../config-service/.idea/gradle.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../config-service/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../config-service/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../config-service/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../config-service/build.gradle.kts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../config-service/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../config-service/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../config-service/gradlew" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../config-service/gradlew.bat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../config-service/settings.gradle.kts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../config-service/src/main/java/config/App.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../config-service/src/main/resources/application.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../employee-service/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../employee-service/.idea/gradle.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../employee-service/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../employee-service/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../employee-service/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../employee-service/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../employee-service/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../employee-service/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../employee-service/gradlew" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../employee-service/gradlew.bat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../employee-service/src/main/java/employee/App.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../employee-service/src/main/resources/application.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../employee-service/src/main/resources/bootstrap.properties" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 5
+}]]></component>
+  <component name="ProjectId" id="30b4ichS6WdYuRBrfTe5CavMLmw" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "/Users/dimitrisimonyan/Yandex.Disk.localized/Projects/Backend/hrm-system-technical-task/company-service",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RunManager">
+    <configuration name="App" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="company-service.main" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="company.App" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="e4eead7e-14e2-4015-a977-cdb7b135b622" name="Changes" comment="" />
+      <created>1753883067106</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1753883067106</updated>
+      <workItem from="1753883068159" duration="9717000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+  </component>
+</project>

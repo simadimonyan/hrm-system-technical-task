@@ -1,0 +1,2 @@
+rootProject.name = "company-service"
+
