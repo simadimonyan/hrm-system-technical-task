@@ -7,7 +7,7 @@ services:
       context: ./company-service
       dockerfile: Dockerfile
     ports:
-      - 8082:8082
+      - 8082:8080
     networks:
       - hrm-network
 
@@ -17,7 +17,7 @@ services:
       context: ./employee-service
       dockerfile: Dockerfile
     ports:
-      - 8081:8081
+      - 8081:8080
     networks:
       - hrm-network
 
@@ -27,7 +27,7 @@ services:
       context: ./config-service
       dockerfile: Dockerfile
     ports:
-      - 8083:8083
+      - 8083:8080
     networks:
       - hrm-network
 
@@ -44,7 +44,7 @@ services:
     expose:
       - 5433
     ports:
-      - 5433:5433
+      - 5433:5432
     healthcheck:
       test: [ "CMD", "pg_isready" ]
       interval: 10s

@@ -5,38 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e4eead7e-14e2-4015-a977-cdb7b135b622" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/bootstrap.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../config-service/.gradle/8.10/checksums/md5-checksums.bin" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../config-service/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../config-service/.idea/gradle.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../config-service/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../config-service/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../config-service/Dockerfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../config-service/build.gradle.kts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../config-service/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../config-service/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../config-service/gradlew" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../config-service/gradlew.bat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../config-service/settings.gradle.kts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../config-service/src/main/java/config/App.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../config-service/src/main/resources/application.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../employee-service/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../employee-service/.idea/gradle.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../employee-service/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../employee-service/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../employee-service/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../employee-service/Dockerfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../employee-service/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../employee-service/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../employee-service/gradlew" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../employee-service/gradlew.bat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../employee-service/src/main/java/employee/App.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../employee-service/src/main/resources/application.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../employee-service/src/main/resources/bootstrap.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/bootstrap.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../compose.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/../compose.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../config-service/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../config-service/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../employee-service/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/../employee-service/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../employee-service/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../employee-service/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../employee-service/src/main/resources/bootstrap.properties" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -94,7 +71,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1753883067106</updated>
-      <workItem from="1753883068159" duration="9717000" />
+      <workItem from="1753883068159" duration="14959000" />
     </task>
     <servers />
   </component>
