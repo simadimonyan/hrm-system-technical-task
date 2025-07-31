@@ -10,6 +10,9 @@ services:
       - 8082:8080
     networks:
       - hrm-network
+    depends_on:
+      - company-db
+      - discovery-service
 
   employee-service:
     container_name: employee-service
@@ -20,6 +23,9 @@ services:
       - 8081:8080
     networks:
       - hrm-network
+    depends_on:
+      - employee-db
+      - discovery-service
 
   config-service:
     container_name: config-service
@@ -31,13 +37,25 @@ services:
     networks:
       - hrm-network
 
+  discovery-service:
+    container_name: discovery-service
+    build:
+      context: ./discovery-service
+      dockerfile: Dockerfile
+    ports:
+      - 8084:8761
+    networks:
+      - hrm-network
+    depends_on:
+      - config-service
+
   company-db:
     container_name: company-db
     image: postgres:latest
     restart: always
     user: postgres
     volumes:
-      - company-db-data:/var/lib/postgresql/data
+      - ./data/company-db-data:/var/lib/postgresql/data
     environment:
       - POSTGRES_DB=${COMPANY_POSTGRES_DB}
       - POSTGRES_PASSWORD=${COMPANY_POSTGRES_PASSWORD}
@@ -59,7 +77,7 @@ services:
     restart: always
     user: postgres
     volumes:
-      - employee-db-data:/var/lib/postgresql/data
+      - ./data/employee-db-data:/var/lib/postgresql/data
     environment:
       - POSTGRES_DB=${EMPLOYEE_POSTGRES_DB}
       - POSTGRES_PASSWORD=${EMPLOYEE_POSTGRES_PASSWORD}
@@ -74,11 +92,7 @@ services:
       retries: 5
     networks:
       - hrm-network
-
-volumes:
-  employee-db-data:
-  company-db-data:
-
+      
 networks:
   hrm-network:
     driver: bridge
