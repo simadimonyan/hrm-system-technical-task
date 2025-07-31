@@ -6,5 +6,5 @@ public class CompanyResponse {
     private Long id;
     private String name;
     private String budget;
-    private List<UserResponse> employees;
+    private List<EmployeeResponse> employees;
 }
