@@ -48,7 +48,7 @@ pom.xml.versionsBackup
 release.properties
 replay_pid*
 
-data
+volumes
 .idea
 .env
 config-files

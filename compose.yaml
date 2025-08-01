@@ -55,9 +55,10 @@ services:
     restart: always
     user: postgres
     volumes:
-      - ./data/company-db-data:/var/lib/postgresql/data
+      - ./volumes/company-db-data:/var/lib/postgresql/data
     environment:
       - POSTGRES_DB=${COMPANY_POSTGRES_DB}
+      - POSTGRES_USER=${COMPANY_POSTGRES_USER}
       - POSTGRES_PASSWORD=${COMPANY_POSTGRES_PASSWORD}
     expose:
       - 5433
@@ -77,9 +78,10 @@ services:
     restart: always
     user: postgres
     volumes:
-      - ./data/employee-db-data:/var/lib/postgresql/data
+      - ./volumes/employee-db-data:/var/lib/postgresql/data
     environment:
       - POSTGRES_DB=${EMPLOYEE_POSTGRES_DB}
+      - POSTGRES_USER=${EMPLOYEE_POSTGRES_USER}
       - POSTGRES_PASSWORD=${EMPLOYEE_POSTGRES_PASSWORD}
     expose:
       - 5432
@@ -90,6 +92,20 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    networks:
+      - hrm-network
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=${PGADMIN_DEFAULT_EMAIL}
+      - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_DEFAULT_PASSWORD}
+    ports:
+      - "5050:80"
+    restart: always
+    volumes:
+      - ./volumes/pgadmin-data:/var/lib/pgadmin
     networks:
       - hrm-network
       
