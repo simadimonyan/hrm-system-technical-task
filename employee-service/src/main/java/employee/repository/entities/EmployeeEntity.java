@@ -2,8 +2,10 @@ package employee.repository.entities;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 @Entity
 @Table(name = "employee_table")
 public class EmployeeEntity {
@@ -23,5 +25,12 @@ public class EmployeeEntity {
 
     @Column(name = "company_id")
     private String companyId;
+
+    public EmployeeEntity(String firstName, String lastName, String phone, String companyId) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phone = phone;
+        this.companyId = companyId;
+    }
 
 }
