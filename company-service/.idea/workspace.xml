@@ -4,14 +4,29 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e4eead7e-14e2-4015-a977-cdb7b135b622" name="Changes" comment="company-service: + jpa">
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+    <list default="true" id="e4eead7e-14e2-4015-a977-cdb7b135b622" name="Changes" comment="company-service: + updated build &amp; discovery client">
+      <change afterPath="$PROJECT_DIR$/src/main/java/company/web/controllers/ExceptionHandlerController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/company/web/dto/request/CompanyRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/company/web/dto/response/CompanyFullResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../employee-service/src/main/java/employee/web/controllers/EmployeeController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../employee-service/src/main/java/employee/web/controllers/ExceptionHandlerController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../employee-service/src/main/java/employee/web/dto/request/EmployeeRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../employee-service/src/main/java/employee/web/dto/response/EmployeeFullResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/company/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/company/App.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/company/repository/entities/CompanyEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/company/repository/entities/CompanyEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/company/service/CompanyService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/company/service/CompanyService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/company/web/controllers/CompanyController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/company/web/controllers/CompanyController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/company/web/dto/CompanyResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/company/web/dto/response/CompanyResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/company/web/dto/EmployeeResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/company/web/dto/response/EmployeeResponse.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../compose.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/../compose.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../employee-service/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/../employee-service/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../employee-service/src/main/java/employee/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/../employee-service/src/main/java/employee/App.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../employee-service/src/main/java/employee/repository/entities/EmployeeEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/../employee-service/src/main/java/employee/repository/entities/EmployeeEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../employee-service/src/main/java/employee/service/EmployeeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../employee-service/src/main/java/employee/service/EmployeeService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../employee-service/src/main/java/employee/web/EmployeeController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../employee-service/src/main/java/employee/web/dto/CompanyResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/../employee-service/src/main/java/employee/web/dto/response/CompanyResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../employee-service/src/main/java/employee/web/dto/EmployeeResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/../employee-service/src/main/java/employee/web/dto/response/EmployeeResponse.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -83,7 +98,7 @@
       <option name="presentableId" value="Default" />
       <updated>1753883067106</updated>
       <workItem from="1753883068159" duration="15146000" />
-      <workItem from="1753954563101" duration="10463000" />
+      <workItem from="1753954563101" duration="25176000" />
     </task>
     <task id="LOCAL-00001" summary="company-service: + jpa">
       <option name="closed" value="true" />
@@ -125,7 +140,15 @@
       <option name="project" value="LOCAL" />
       <updated>1753962265298</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="company-service: + updated build &amp; discovery client">
+      <option name="closed" value="true" />
+      <created>1753986804060</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1753986804060</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -145,6 +168,7 @@
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="company-service: + jpa" />
-    <option name="LAST_COMMIT_MESSAGE" value="company-service: + jpa" />
+    <MESSAGE value="company-service: + updated build &amp; discovery client" />
+    <option name="LAST_COMMIT_MESSAGE" value="company-service: + updated build &amp; discovery client" />
   </component>
 </project>

@@ -2,10 +2,12 @@ package company.repository.entities;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Data
+@NoArgsConstructor
 @Entity
 @Table(name = "company_table")
 public class CompanyEntity {
@@ -27,5 +29,11 @@ public class CompanyEntity {
     )
     @Column(name = "employee_id")
     private List<Long> employeeIds;
+
+    public CompanyEntity(String name, String budget, List<Long> employeeIds) {
+        this.name = name;
+        this.budget = budget;
+        this.employeeIds = employeeIds;
+    }
 
 }
