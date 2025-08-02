@@ -1,20 +1,22 @@
 package company.repository.entities;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import java.util.UUID;
 
 @Data
-@NoArgsConstructor
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "company_table")
 public class CompanyEntity {
 
     @Id
-    @GeneratedValue
-    private Long id;
+    private UUID id;
 
     @Column(name = "company_name")
     private String name;
@@ -24,16 +26,10 @@ public class CompanyEntity {
 
     @ElementCollection
     @CollectionTable(
-            name = "company_employee_ids",
-            joinColumns = @JoinColumn(name = "company_id")
+        name = "company_employee_ids",
+        joinColumns = @JoinColumn(name = "company_id")
     )
     @Column(name = "employee_id")
-    private List<Long> employeeIds;
-
-    public CompanyEntity(String name, String budget, List<Long> employeeIds) {
-        this.name = name;
-        this.budget = budget;
-        this.employeeIds = employeeIds;
-    }
+    private List<UUID> employeeIds;
 
 }
