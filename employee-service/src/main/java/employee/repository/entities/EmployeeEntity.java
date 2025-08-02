@@ -1,18 +1,21 @@
 package employee.repository.entities;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.UUID;
+
 @Data
-@NoArgsConstructor
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "employee_table")
 public class EmployeeEntity {
 
     @Id
-    @GeneratedValue
-    private Long id;
+    private UUID id;
 
     @Column(name = "first_name")
     private String firstName;
@@ -24,13 +27,6 @@ public class EmployeeEntity {
     private String phone;
 
     @Column(name = "company_id")
-    private String companyId;
-
-    public EmployeeEntity(String firstName, String lastName, String phone, String companyId) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.phone = phone;
-        this.companyId = companyId;
-    }
+    private UUID companyId;
 
 }
