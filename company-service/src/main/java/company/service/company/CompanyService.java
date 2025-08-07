@@ -1,4 +1,4 @@
-package company.service;
+package company.service.company;
 
 import company.repository.CompanyRepository;
 import company.repository.entities.CompanyEntity;
@@ -59,6 +59,26 @@ public class CompanyService {
     public void deleteCompany(UUID id) {
         companyRepository.deleteById(id);
         companyRepository.flush();
+    }
+
+    @Transactional
+    public void addCompanyEmployee(UUID companyId, UUID employeeId) {
+        CompanyEntity companyEntity = companyRepository.findById(companyId).orElseThrow(
+                () -> new EntityNotFoundException("Company not found with id: " + companyId));
+        var ids = companyEntity.getEmployeeIds();
+        ids.add(employeeId);
+        companyEntity.setEmployeeIds(ids);
+        companyRepository.saveAndFlush(companyEntity);
+    }
+
+    @Transactional
+    public void removeCompanyEmployee(UUID companyId, UUID employeeId) {
+        CompanyEntity companyEntity = companyRepository.findById(companyId).orElseThrow(
+                () -> new EntityNotFoundException("Company not found with id: " + companyId));
+        var ids = companyEntity.getEmployeeIds();
+        ids.remove(employeeId);
+        companyEntity.setEmployeeIds(ids);
+        companyRepository.saveAndFlush(companyEntity);
     }
 
     public Page<CompanyEntity> getAllCompanies(Pageable pageable) {

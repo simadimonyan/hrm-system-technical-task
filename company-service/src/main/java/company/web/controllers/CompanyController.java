@@ -1,8 +1,11 @@
 package company.web.controllers;
 
 import company.repository.entities.CompanyEntity;
-import company.service.CompanyService;
+import company.service.company.CompanyService;
+import company.service.kafka.KafkaProducerService;
 import company.service.configurations.DiscoveryConfiguration;
+import company.service.messages.company.ChangeCompanyEvent;
+import company.service.messages.company.ClearCompanyEvent;
 import company.web.dto.request.CompanyRequest;
 import company.web.dto.response.CompanyFullResponse;
 import company.web.dto.response.CompanyResponse;
@@ -29,12 +32,14 @@ public class CompanyController {
     private final CompanyService companyService;
     private final String EMPLOYEE_SERVICE;
     private final WebClient webClient;
+    private final KafkaProducerService kafkaProducerService;
 
     @Autowired
-    public CompanyController(DiscoveryConfiguration discoveryConfiguration, CompanyService companyService, WebClient.Builder builder) {
+    public CompanyController(DiscoveryConfiguration discoveryConfiguration, CompanyService companyService, WebClient.Builder builder, KafkaProducerService kafkaProducerService) {
         this.EMPLOYEE_SERVICE = discoveryConfiguration.getEmployeeService();
         this.companyService = companyService;
         this.webClient = builder.build();
+        this.kafkaProducerService = kafkaProducerService;
     }
 
     @PostMapping
@@ -44,7 +49,9 @@ public class CompanyController {
 
         // company employees
         if (!(request.getEmployeeIds().isEmpty())) {
-            updateEmployeesCompany(id, request);
+            request.getEmployeeIds().forEach(eId ->
+                kafkaProducerService.sendChangeCompany(new ChangeCompanyEvent(eId, id))
+            );
         }
 
         companyService.createCompany(id, request);
@@ -103,8 +110,12 @@ public class CompanyController {
 
         // request idempotency check
         if (result.getEmployeeIds() != request.getEmployeeIds() && request.getEmployeeIds() != null) {
-            clearEmployeesCompany(result);
-            updateEmployeesCompany(id, request);
+            result.getEmployeeIds().forEach(eId ->
+                kafkaProducerService.sendClearCompany(new ClearCompanyEvent(eId))
+            );
+            request.getEmployeeIds().forEach(eId ->
+                kafkaProducerService.sendChangeCompany(new ChangeCompanyEvent(eId, id))
+            );
         }
 
         companyService.updateCompany(id, request);
@@ -113,13 +124,6 @@ public class CompanyController {
 
     @DeleteMapping("/{id}")
     private ResponseEntity<String> deleteCompany(@PathVariable UUID id) {
-        var result = companyService.readCompany(id);
-
-//        if (!result.getEmployeeIds().isEmpty()) {
-//            // company employees
-//            clearEmployeesCompany(result);
-//        }
-
         companyService.deleteCompany(id);
         return ResponseEntity.ok("Successfully deleted!");
     }
@@ -175,81 +179,5 @@ public class CompanyController {
         return ResponseEntity.ok(response);
     }
 
-    /**
-     * Changes employee's company
-     * @param id UUID of company
-     * @param request company data
-     */
-    private void updateEmployeesCompany(UUID id, CompanyRequest request) {
-        request.getEmployeeIds().forEach(eId -> {
-            // get employee
-            EmployeeResponse employee = webClient.get()
-                    .uri(EMPLOYEE_SERVICE + "employees/" + eId)
-                    .retrieve()
-                    .onStatus(
-                        status -> status.is4xxClientError() || status.is5xxServerError(),
-                        clientResponse -> clientResponse.bodyToMono(String.class).flatMap(
-                            errorBody -> Mono.error(new RuntimeException("CompanyService: " + errorBody))
-                        )
-                    )
-                    .bodyToMono(EmployeeResponse.class)
-                    .block();
-
-            // if exception - has handler = Not Found
-            assert employee != null;
-            employee.setCompanyId(id);
-
-            // change employee's company
-            webClient.put().uri(EMPLOYEE_SERVICE + "employees/" + eId)
-                    .bodyValue(employee)
-                    .retrieve()
-                    .onStatus(
-                        status -> status.is4xxClientError() || status.is5xxServerError(),
-                        clientResponse -> clientResponse.bodyToMono(String.class).flatMap(
-                            errorBody -> Mono.error(new RuntimeException("CompanyService: " + errorBody))
-                        )
-                    )
-                    .toBodilessEntity()
-                    .block();
-        });
-    }
-
-    /**
-     * Clear employee's company
-     * @param entity company data
-     */
-    private void clearEmployeesCompany(CompanyEntity entity) {
-        entity.getEmployeeIds().forEach(eId -> {
-            // get employee
-            EmployeeResponse employee = webClient.get()
-                    .uri(EMPLOYEE_SERVICE + "employees/" + eId)
-                    .retrieve()
-                    .onStatus(
-                        status -> status.is4xxClientError() || status.is5xxServerError(),
-                        clientResponse -> clientResponse.bodyToMono(String.class).flatMap(
-                            errorBody -> Mono.error(new RuntimeException("CompanyService: " + errorBody))
-                        )
-                    )
-                    .bodyToMono(EmployeeResponse.class)
-                    .block();
-
-            // if exception - has handler = Not Found
-            assert employee != null;
-            employee.setCompanyId(null);
-
-            // change employee's company
-            webClient.put().uri(EMPLOYEE_SERVICE + "employees/" + eId)
-                    .bodyValue(employee)
-                    .retrieve()
-                    .onStatus(
-                        status -> status.is4xxClientError() || status.is5xxServerError(),
-                        clientResponse -> clientResponse.bodyToMono(String.class).flatMap(
-                            errorBody -> Mono.error(new RuntimeException("CompanyService: " + errorBody))
-                        )
-                    )
-                    .toBodilessEntity()
-                    .block();
-        });
-    }
 
 }
