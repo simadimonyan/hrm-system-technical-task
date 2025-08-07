@@ -1,0 +1,35 @@
+
+Employee 
+
+ Id - some fields company id	
+
+
+Company	
+
+ Id some fields employee ids 
+
+-----------------------------
+
+Update company 
+
+1. Update some fields 
+
+2. Check the difference between db and request (some can be removed / some can be added / empty / partially removed or added)
+
+3. Send message to employees to (clear company / change company)
+
+
+Update employee
+
+1. Update some fields 
+
+2. Check the difference between db and request (company can be null / company can be changed)
+
+3. Send message to company to (remove employee / add employee)
+
+
+
+
+
+
+
