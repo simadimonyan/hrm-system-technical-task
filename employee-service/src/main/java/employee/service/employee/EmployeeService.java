@@ -1,4 +1,4 @@
-package employee.service;
+package employee.service.employee;
 
 import employee.repository.EmployeeRepository;
 import employee.repository.entities.EmployeeEntity;
@@ -55,6 +55,22 @@ public class EmployeeService {
     public void deleteEmployee(UUID id) {
         employeeRepository.deleteById(id);
         employeeRepository.flush();
+    }
+
+    @Transactional
+    public void changeCompany(UUID employeeId, UUID companyId) {
+        EmployeeEntity employee = employeeRepository.findById(employeeId).orElseThrow(
+                () -> new EntityNotFoundException("Employee not found with id: " + employeeId));
+        employee.setCompanyId(companyId);
+        employeeRepository.saveAndFlush(employee);
+    }
+
+    @Transactional
+    public void clearCompany(UUID employeeId) {
+        EmployeeEntity employee = employeeRepository.findById(employeeId).orElseThrow(
+                () -> new EntityNotFoundException("Employee not found with id: " + employeeId));
+        employee.setCompanyId(null);
+        employeeRepository.saveAndFlush(employee);
     }
 
     public Page<EmployeeEntity> getAllEmployees(Pageable pageable) {

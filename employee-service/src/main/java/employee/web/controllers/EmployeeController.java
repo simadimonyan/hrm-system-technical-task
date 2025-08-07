@@ -1,9 +1,11 @@
 package employee.web.controllers;
 
 import employee.repository.entities.EmployeeEntity;
-import employee.service.EmployeeService;
 import employee.service.configurations.DiscoveryConfiguration;
-import employee.web.dto.request.CompanyRequest;
+import employee.service.employee.EmployeeService;
+import employee.service.kafka.KafkaProducerService;
+import employee.service.messages.employee.AddEmployeeEvent;
+import employee.service.messages.employee.RemoveEmployeeEvent;
 import employee.web.dto.request.EmployeeRequest;
 import employee.web.dto.response.CompanyResponse;
 import employee.web.dto.response.EmployeeFullResponse;
@@ -30,13 +32,14 @@ public class EmployeeController {
     private final EmployeeService employeeService;
     private final String COMPANY_SERVICE;
     private final WebClient webClient;
-
+    private final KafkaProducerService kafkaProducerService;
 
     @Autowired
-    public EmployeeController(DiscoveryConfiguration discoveryConfiguration, EmployeeService employeeService, WebClient.Builder builder) {
+    public EmployeeController(DiscoveryConfiguration discoveryConfiguration, EmployeeService employeeService, WebClient.Builder builder, KafkaProducerService kafkaProducerService) {
         this.COMPANY_SERVICE = discoveryConfiguration.getCompanyService();
         this.employeeService = employeeService;
         this.webClient = builder.build();
+        this.kafkaProducerService = kafkaProducerService;
     }
 
     @PostMapping
@@ -47,7 +50,7 @@ public class EmployeeController {
         if (request.getCompanyId() != null) {
             // company updates
             try {
-                addEmployee(id, request);
+                kafkaProducerService.sendAddEmployee(new AddEmployeeEvent(id, request.getCompanyId()));
             } catch (Exception ignored) {
                 log.info("Company: " + request.getCompanyId() + " for employee: " + id + " does not exist");
             }
@@ -110,9 +113,10 @@ public class EmployeeController {
 
         // request idempotency check
         if (request.getCompanyId() != null && !request.getCompanyId().equals(result.getCompanyId())) {
-            if (result.getCompanyId() != null) removeEmployee(id, result);
-            log.info("---1 {} {} {} {}", request.getFirstName(), request.getLastName(), request.getPhone(), request.getCompanyId());
-            addEmployee(id, request);
+            if (result.getCompanyId() != null) {
+                kafkaProducerService.sendRemoveEmployee(new RemoveEmployeeEvent(id, result.getCompanyId()));
+            }
+            kafkaProducerService.sendAddEmployee(new AddEmployeeEvent(id, request.getCompanyId()));
         }
 
         employeeService.updateEmployee(id, request);
@@ -123,10 +127,10 @@ public class EmployeeController {
     public ResponseEntity<String> deleteEmployee(@PathVariable UUID id) {
         var result = employeeService.readEmployee(id);
 
-//        if (result.getCompanyId() != null) {
-//            // company updates
-//            removeEmployee(id, result);
-//        }
+        if (result.getCompanyId() != null) {
+            // company updates
+            kafkaProducerService.sendRemoveEmployee(new RemoveEmployeeEvent(id, result.getCompanyId()));
+        }
 
         employeeService.deleteEmployee(id);
         return ResponseEntity.ok("Successfully deleted!");
@@ -189,97 +193,6 @@ public class EmployeeController {
                 )
         );
         return ResponseEntity.ok(response);
-    }
-
-    /**
-     * Adds employee's id to the company
-     * @param id employee's id
-     * @param request employee's data
-     */
-    private void addEmployee(UUID id, EmployeeRequest request) {
-
-        // company service data request by id
-        CompanyResponse company = webClient.get()
-                .uri(COMPANY_SERVICE + "companies/" + request.getCompanyId())
-                .retrieve()
-                .onStatus(
-                    status -> status.is4xxClientError() || status.is5xxServerError(),
-                    clientResponse -> clientResponse.bodyToMono(String.class).flatMap(
-                        errorBody -> Mono.error(new RuntimeException("EmployeeService: " + errorBody))
-                    )
-                )
-                .bodyToMono(CompanyResponse.class)
-                .block();
-
-        // if exception - has handler = Not Found
-        assert company != null;
-        List<UUID> employees = company.getEmployeesIds() == null ? new ArrayList<>() : new ArrayList<>(company.getEmployeesIds());
-        log.info("---2.1 {}", employees);
-        employees.add(id);
-        log.info("---2.2 {}", employees);
-
-        CompanyRequest body = new CompanyRequest(
-                company.getName(),
-                company.getBudget(),
-                employees
-        );
-
-        log.info("---3 {} {} {}", body.getName(), body.getBudget(), body.getEmployeeIds());
-
-        // update company employees
-        webClient.put().uri(COMPANY_SERVICE + "companies/" + request.getCompanyId())
-                .bodyValue(body)
-                .retrieve()
-                .onStatus(
-                    status -> status.is4xxClientError() || status.is5xxServerError(),
-                    clientResponse -> clientResponse.bodyToMono(String.class).flatMap(
-                        errorBody -> Mono.error(new RuntimeException("EmployeeService: " + errorBody))
-                    )
-                )
-                .toBodilessEntity()
-                .block();
-
-    }
-
-    /**
-     * Removes employee's id from the company
-     * @param id employee's id
-     * @param entity employee's data
-     */
-    private void removeEmployee(UUID id, EmployeeEntity entity) {
-
-        // company service data request by id
-        CompanyResponse company = webClient.get()
-                .uri(COMPANY_SERVICE + "companies/" + entity.getCompanyId())
-                .retrieve()
-                .onStatus(
-                    status -> status.is4xxClientError() || status.is5xxServerError(),
-                    clientResponse -> clientResponse.bodyToMono(String.class).flatMap(
-                        errorBody -> Mono.error(new RuntimeException("EmployeeService: " + errorBody))
-                    )
-                )
-                .bodyToMono(CompanyResponse.class)
-                .block();
-
-        // if exception - has handler = Not Found
-        assert company != null;
-        List<UUID> employees = company.getEmployeesIds() == null ? new ArrayList<>() : new ArrayList<>(company.getEmployeesIds());
-        employees.remove(id);
-        company.setEmployeesIds(employees);
-
-        // update company employees
-        webClient.put().uri(COMPANY_SERVICE + "companies/" + entity.getCompanyId())
-                .bodyValue(company)
-                .retrieve()
-                .onStatus(
-                    status -> status.is4xxClientError() || status.is5xxServerError(),
-                    clientResponse -> clientResponse.bodyToMono(String.class).flatMap(
-                        errorBody -> Mono.error(new RuntimeException("EmployeeService: " + errorBody))
-                    )
-                )
-                .toBodilessEntity()
-                .block();
-
     }
 
 }
