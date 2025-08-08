@@ -50,7 +50,7 @@ public class EmployeeController {
         if (request.getCompanyId() != null) {
             // company updates
             try {
-                kafkaProducerService.sendAddEmployee(new AddEmployeeEvent(id, request.getCompanyId()));
+                kafkaProducerService.sendAddEmployee(new AddEmployeeEvent(request.getCompanyId(), id));
             } catch (Exception ignored) {
                 log.info("Company: " + request.getCompanyId() + " for employee: " + id + " does not exist");
             }
@@ -114,9 +114,9 @@ public class EmployeeController {
         // request idempotency check
         if (request.getCompanyId() != null && !request.getCompanyId().equals(result.getCompanyId())) {
             if (result.getCompanyId() != null) {
-                kafkaProducerService.sendRemoveEmployee(new RemoveEmployeeEvent(id, result.getCompanyId()));
+                kafkaProducerService.sendRemoveEmployee(new RemoveEmployeeEvent(request.getCompanyId(), id));
             }
-            kafkaProducerService.sendAddEmployee(new AddEmployeeEvent(id, request.getCompanyId()));
+            kafkaProducerService.sendAddEmployee(new AddEmployeeEvent(request.getCompanyId(), id));
         }
 
         employeeService.updateEmployee(id, request);
@@ -129,7 +129,7 @@ public class EmployeeController {
 
         if (result.getCompanyId() != null) {
             // company updates
-            kafkaProducerService.sendRemoveEmployee(new RemoveEmployeeEvent(id, result.getCompanyId()));
+            kafkaProducerService.sendRemoveEmployee(new RemoveEmployeeEvent(result.getCompanyId(), id));
         }
 
         employeeService.deleteEmployee(id);
