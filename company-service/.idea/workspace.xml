@@ -4,27 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e4eead7e-14e2-4015-a977-cdb7b135b622" name="Changes" comment="company-service: + interaction endpoints">
-      <change afterPath="$PROJECT_DIR$/src/main/java/company/service/kafka/KafkaConsumerService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/company/service/kafka/KafkaProducerService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/company/service/messages/company/ChangeCompanyEvent.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/company/service/messages/company/ClearCompanyEvent.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/company/service/messages/employee/AddEmployeeEvent.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/company/service/messages/employee/RemoveEmployeeEvent.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../employee-service/src/main/java/employee/service/kafka/KafkaConsumerService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../employee-service/src/main/java/employee/service/kafka/KafkaProducerService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../employee-service/src/main/java/employee/service/messages/company/ChangeCompanyEvent.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../employee-service/src/main/java/employee/service/messages/company/ClearCompanyEvent.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../employee-service/src/main/java/employee/service/messages/employee/AddEmployeeEvent.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../employee-service/src/main/java/employee/service/messages/employee/RemoveEmployeeEvent.java" afterDir="false" />
+    <list default="true" id="e4eead7e-14e2-4015-a977-cdb7b135b622" name="Changes" comment="company-service: + kafka integration">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/company/service/CompanyService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/company/service/company/CompanyService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/company/web/controllers/CompanyController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/company/web/controllers/CompanyController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../compose.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/../compose.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../employee-service/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/../employee-service/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../employee-service/src/main/java/employee/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/../employee-service/src/main/java/employee/App.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../employee-service/src/main/java/employee/service/EmployeeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../employee-service/src/main/java/employee/service/employee/EmployeeService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/company/service/messages/company/ChangeCompanyEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/company/service/messages/company/ChangeCompanyEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/company/service/messages/company/ClearCompanyEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/company/service/messages/company/ClearCompanyEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/company/service/messages/employee/AddEmployeeEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/company/service/messages/employee/AddEmployeeEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/company/service/messages/employee/RemoveEmployeeEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/company/service/messages/employee/RemoveEmployeeEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../employee-service/src/main/java/employee/service/messages/company/ChangeCompanyEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/../employee-service/src/main/java/employee/service/messages/company/ChangeCompanyEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../employee-service/src/main/java/employee/service/messages/company/ClearCompanyEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/../employee-service/src/main/java/employee/service/messages/company/ClearCompanyEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../employee-service/src/main/java/employee/service/messages/employee/AddEmployeeEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/../employee-service/src/main/java/employee/service/messages/employee/AddEmployeeEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../employee-service/src/main/java/employee/service/messages/employee/RemoveEmployeeEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/../employee-service/src/main/java/employee/service/messages/employee/RemoveEmployeeEvent.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../employee-service/src/main/java/employee/web/controllers/EmployeeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../employee-service/src/main/java/employee/web/controllers/EmployeeController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -98,7 +87,7 @@
       <updated>1753883067106</updated>
       <workItem from="1753883068159" duration="15146000" />
       <workItem from="1753954563101" duration="64009000" />
-      <workItem from="1754570584802" duration="7607000" />
+      <workItem from="1754570584802" duration="11513000" />
     </task>
     <task id="LOCAL-00001" summary="company-service: + jpa">
       <option name="closed" value="true" />
@@ -164,7 +153,15 @@
       <option name="project" value="LOCAL" />
       <updated>1754159341714</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="company-service: + kafka integration">
+      <option name="closed" value="true" />
+      <created>1754594128222</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1754594128222</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -187,6 +184,7 @@
     <MESSAGE value="company-service: + updated build &amp; discovery client" />
     <MESSAGE value="company-service: + crud endpoints" />
     <MESSAGE value="company-service: + interaction endpoints" />
-    <option name="LAST_COMMIT_MESSAGE" value="company-service: + interaction endpoints" />
+    <MESSAGE value="company-service: + kafka integration" />
+    <option name="LAST_COMMIT_MESSAGE" value="company-service: + kafka integration" />
   </component>
 </project>
