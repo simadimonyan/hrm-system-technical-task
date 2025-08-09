@@ -1,7 +1,21 @@
 
 services:
 
-  companies-service:
+  gateway-service:
+    container_name: gateway-service
+    build:
+      context: ./gateway-service
+      dockerfile: Dockerfile
+    ports:
+      - 8080:8080
+    networks:
+      - hrm-network
+    depends_on:
+      - discovery-service
+      - company-service
+      - employee-service
+
+  company-service:
     container_name: company-service
     build:
       context: ./company-service
