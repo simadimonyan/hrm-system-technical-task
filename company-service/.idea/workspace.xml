@@ -4,15 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e4eead7e-14e2-4015-a977-cdb7b135b622" name="Changes" comment="company-service: + kafka events fix">
-      <change afterPath="$PROJECT_DIR$/../gateway-service/Dockerfile" afterDir="false" />
+    <list default="true" id="e4eead7e-14e2-4015-a977-cdb7b135b622" name="Changes" comment="config-service: + config-files">
       <change beforePath="$PROJECT_DIR$/../.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../compose.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/../compose.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../config-service/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/../config-service/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../discovery-service/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/../discovery-service/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../employee-service/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/../employee-service/Dockerfile" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -85,7 +79,7 @@
       <updated>1753883067106</updated>
       <workItem from="1753883068159" duration="15146000" />
       <workItem from="1753954563101" duration="64009000" />
-      <workItem from="1754570584802" duration="18312000" />
+      <workItem from="1754570584802" duration="18535000" />
     </task>
     <task id="LOCAL-00001" summary="company-service: + jpa">
       <option name="closed" value="true" />
@@ -167,7 +161,23 @@
       <option name="project" value="LOCAL" />
       <updated>1754683835811</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="company-service: + Dockerfile">
+      <option name="closed" value="true" />
+      <created>1754755010970</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1754755010970</updated>
+    </task>
+    <task id="LOCAL-00012" summary="config-service: + config-files">
+      <option name="closed" value="true" />
+      <created>1754755222834</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1754755222834</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -192,6 +202,8 @@
     <MESSAGE value="company-service: + interaction endpoints" />
     <MESSAGE value="company-service: + kafka integration" />
     <MESSAGE value="company-service: + kafka events fix" />
-    <option name="LAST_COMMIT_MESSAGE" value="company-service: + kafka events fix" />
+    <MESSAGE value="company-service: + Dockerfile" />
+    <MESSAGE value="config-service: + config-files" />
+    <option name="LAST_COMMIT_MESSAGE" value="config-service: + config-files" />
   </component>
 </project>
