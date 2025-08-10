@@ -31,7 +31,7 @@ Swagger UI is available for both services at their respective ports:
    - [Delete Company](#delete-company)
    - [Get All Companies](#get-all-companies)
 3. [Technology Stack](#technology-stack)
-4. [Docker Compose Setup](#docker-compose-setup)
+4. [Installation Guide for HRM Services with Docker Compose](#installation-guide-for-hrm-services-with-docker-compose)
 
 ---
 
@@ -398,7 +398,7 @@ The Company Service manages company data and is accessible at `http://localhost:
 
 ---
 
-### Installation Guide for HRM Services with Docker Compose
+## Installation Guide for HRM Services with Docker Compose
 
 This guide walks you through the process of setting up the Human Resource Management (HRM) system, including the `gateway-service`, `company-service`, `employee-service`, `config-service`, `discovery-service`, Kafka, PostgreSQL databases, and related tools, using Docker Compose.
 
