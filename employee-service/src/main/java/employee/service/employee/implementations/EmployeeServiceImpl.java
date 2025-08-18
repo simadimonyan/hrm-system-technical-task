@@ -7,6 +7,7 @@ import employee.service.employee.contracts.EmployeeService;
 import employee.service.kafka.KafkaProducerService;
 import employee.service.messages.employee.AddEmployeeEvent;
 import employee.service.messages.employee.RemoveEmployeeEvent;
+import employee.web.controllers.exceptions.EmployeeNotFoundException;
 import employee.web.dto.request.EmployeeRequest;
 import employee.web.dto.response.CompanyResponse;
 import employee.web.dto.response.EmployeeFullResponse;
@@ -66,8 +67,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public Employee readEmployee(UUID id, Boolean extraInfo) {
 
-        EmployeeEntity entity = employeeRepository.findById(id).orElseThrow(
-                () -> new EntityNotFoundException("Employee not found with id: " + id));
+        EmployeeEntity entity = findEmployeeOrThrow(id);
 
         // extraInfo - company data
         if (extraInfo) {
@@ -95,8 +95,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Transactional
     public EmployeeEntity updateEmployee(UUID id, EmployeeRequest request) {
 
-        EmployeeEntity result = employeeRepository.findById(id).orElseThrow(
-                () -> new EntityNotFoundException("Employee not found with id: " + id));
+        EmployeeEntity result = findEmployeeOrThrow(id);
 
         // request idempotency check
         if (request.getCompanyId() != null && !request.getCompanyId().equals(result.getCompanyId())) {
@@ -119,8 +118,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Transactional
     public EmployeeEntity deleteEmployee(UUID id) {
-        EmployeeEntity result = employeeRepository.findById(id).orElseThrow(
-                () -> new EntityNotFoundException("Employee not found with id: " + id));
+
+        EmployeeEntity result = findEmployeeOrThrow(id);
 
         if (result.getCompanyId() != null) {
             // company updates
@@ -135,16 +134,14 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Transactional
     public void changeCompany(UUID employeeId, UUID companyId) {
-        EmployeeEntity employee = employeeRepository.findById(employeeId).orElseThrow(
-                () -> new EntityNotFoundException("Employee not found with id: " + employeeId));
+        EmployeeEntity employee = findEmployeeOrThrow(employeeId);
         employee.setCompanyId(companyId);
         employeeRepository.saveAndFlush(employee);
     }
 
     @Transactional
     public void clearCompany(UUID employeeId) {
-        EmployeeEntity employee = employeeRepository.findById(employeeId).orElseThrow(
-                () -> new EntityNotFoundException("Employee not found with id: " + employeeId));
+        EmployeeEntity employee = findEmployeeOrThrow(employeeId);
         employee.setCompanyId(null);
         employeeRepository.saveAndFlush(employee);
     }
@@ -176,6 +173,17 @@ public class EmployeeServiceImpl implements EmployeeService {
         Page<? extends Employee> pageResponse = page.map(employeeMapper::toResponse);
         log.info("Returning all employees: {}", pageResponse);
         return pageResponse;
+    }
+
+    /**
+     * Utility method
+     * Finds EmployeeEntity or throws EmployeeNotFoundException
+     * @param id employee
+     * @return EmployeeEntity
+     */
+    private EmployeeEntity findEmployeeOrThrow(UUID id) {
+        return employeeRepository.findById(id)
+                .orElseThrow(() -> new EmployeeNotFoundException(id));
     }
 
 }
