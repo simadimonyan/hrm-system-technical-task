@@ -4,6 +4,7 @@ import employee.repository.entities.EmployeeEntity;
 import employee.service.employee.contracts.EmployeeService;
 import employee.web.dto.request.EmployeeRequest;
 import employee.web.dto.response.contracts.Employee;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -25,7 +26,7 @@ public class EmployeeController {
     }
 
     @PostMapping
-    public EmployeeEntity createEmployee(@RequestBody EmployeeRequest request) {
+    public EmployeeEntity createEmployee(@Valid @RequestBody EmployeeRequest request) {
         log.info("Received request to create employee: {}", request);
         return employeeService.createEmployee(request);
     }
@@ -37,7 +38,7 @@ public class EmployeeController {
     }
 
     @PutMapping("/{id}")
-    public EmployeeEntity updateEmployee(@PathVariable UUID id, @RequestBody EmployeeRequest request) {
+    public EmployeeEntity updateEmployee(@PathVariable UUID id, @Valid @RequestBody EmployeeRequest request) {
         log.info("Received request to update employee: {}, {}", id, request);
         return employeeService.updateEmployee(id, request);
     }
