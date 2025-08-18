@@ -1,7 +1,7 @@
 package employee.web.controllers;
 
 import employee.repository.entities.EmployeeEntity;
-import employee.service.configurations.DiscoveryConfiguration;
+import employee.service.company.CompanyClient;
 import employee.service.employee.EmployeeService;
 import employee.service.kafka.KafkaProducerService;
 import employee.service.messages.employee.AddEmployeeEvent;
@@ -17,8 +17,6 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,16 +28,16 @@ import java.util.UUID;
 public class EmployeeController {
 
     private final EmployeeService employeeService;
-    private final String COMPANY_SERVICE;
-    private final WebClient webClient;
+
+    private final CompanyClient companyClient;
+
     private final KafkaProducerService kafkaProducerService;
 
     @Autowired
-    public EmployeeController(DiscoveryConfiguration discoveryConfiguration, EmployeeService employeeService, WebClient.Builder builder, KafkaProducerService kafkaProducerService) {
-        this.COMPANY_SERVICE = discoveryConfiguration.getCompanyService();
+    public EmployeeController(EmployeeService employeeService, KafkaProducerService kafkaProducerService, CompanyClient companyClient) {
         this.employeeService = employeeService;
-        this.webClient = builder.build();
         this.kafkaProducerService = kafkaProducerService;
+        this.companyClient = companyClient;
     }
 
     @PostMapping
@@ -68,17 +66,7 @@ public class EmployeeController {
         if (extraInfo) {
             // company service data request by id
             try {
-                CompanyResponse company = webClient.get()
-                        .uri(COMPANY_SERVICE + "companies/" + entity.getCompanyId())
-                        .retrieve()
-                        .onStatus(
-                                status -> status.is4xxClientError() || status.is5xxServerError(),
-                                clientResponse -> clientResponse.bodyToMono(String.class).flatMap(
-                                        errorBody -> Mono.error(new RuntimeException("EmployeeService: " + errorBody))
-                                )
-                        )
-                        .bodyToMono(CompanyResponse.class)
-                        .block();
+                CompanyResponse company = companyClient.getCompany(entity.getCompanyId());
 
                 return ResponseEntity.ok(new EmployeeFullResponse(
                         entity.getId(),
@@ -149,17 +137,7 @@ public class EmployeeController {
             for (var employee : page) {
                 try {
 
-                    CompanyResponse company = webClient.get()
-                            .uri(COMPANY_SERVICE + "companies/" + employee.getCompanyId())
-                            .retrieve()
-                            .onStatus(
-                                    status -> status.is4xxClientError() || status.is5xxServerError(),
-                                    clientResponse -> clientResponse.bodyToMono(String.class).flatMap(
-                                            errorBody -> Mono.error(new RuntimeException("EmployeeService: " + errorBody))
-                                    )
-                            )
-                            .bodyToMono(CompanyResponse.class)
-                            .block();
+                    CompanyResponse company = companyClient.getCompany(employee.getCompanyId());
 
                     responses.add(new EmployeeFullResponse(
                             employee.getId(),
