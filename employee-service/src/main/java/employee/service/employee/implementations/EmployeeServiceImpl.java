@@ -12,6 +12,7 @@ import employee.web.dto.response.CompanyResponse;
 import employee.web.dto.response.EmployeeFullResponse;
 import employee.web.dto.response.EmployeeResponse;
 import employee.web.dto.response.contracts.Employee;
+import employee.web.dto.response.mappers.EmployeeMapper;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
@@ -34,11 +35,14 @@ public class EmployeeServiceImpl implements EmployeeService {
     private final CompanyClient companyClient;
     private final KafkaProducerService kafkaProducerService;
 
+    private final EmployeeMapper employeeMapper;
+
     @Autowired
-    public EmployeeServiceImpl(EmployeeRepository employeeRepository, KafkaProducerService kafkaProducerService, CompanyClient companyClient) {
+    public EmployeeServiceImpl(EmployeeRepository employeeRepository, KafkaProducerService kafkaProducerService, CompanyClient companyClient, EmployeeMapper employeeMapper) {
         this.employeeRepository = employeeRepository;
         this.companyClient = companyClient;
         this.kafkaProducerService = kafkaProducerService;
+        this.employeeMapper = employeeMapper;
     }
 
     @Transactional
@@ -54,14 +58,7 @@ public class EmployeeServiceImpl implements EmployeeService {
                 log.info("Company: " + request.getCompanyId() + " for employee: " + id + " does not exist");
             }
         }
-
-        EmployeeEntity employee = new EmployeeEntity(
-                id,
-                request.getFirstName(),
-                request.getLastName(),
-                request.getPhone(),
-                request.getCompanyId()
-        );
+        EmployeeEntity employee = employeeMapper.toEntity(id, request);
         log.info("Returning saved employee: {}", employee);
         return employeeRepository.saveAndFlush(employee);
     }
@@ -79,36 +76,18 @@ public class EmployeeServiceImpl implements EmployeeService {
             try {
                 CompanyResponse company = companyClient.getCompany(entity.getCompanyId());
 
-                EmployeeFullResponse fullResponse = new EmployeeFullResponse(
-                        entity.getId(),
-                        entity.getFirstName(),
-                        entity.getLastName(),
-                        entity.getPhone(),
-                        company
-                );
+                EmployeeFullResponse fullResponse = employeeMapper.toFullResponse(entity, company);
                 log.info("Returning read employee: {}", fullResponse);
                 return fullResponse;
 
             } catch (Exception e) {
-                EmployeeFullResponse fullResponse = new EmployeeFullResponse(
-                        entity.getId(),
-                        entity.getFirstName(),
-                        entity.getLastName(),
-                        entity.getPhone(),
-                        null
-                );
+                EmployeeFullResponse fullResponse = employeeMapper.toFullResponse(entity, null);
                 log.info("Returning read employee: {}", fullResponse);
                 return fullResponse;
             }
         }
 
-        EmployeeResponse response = new EmployeeResponse(
-                entity.getId(),
-                entity.getFirstName(),
-                entity.getLastName(),
-                entity.getPhone(),
-                entity.getCompanyId()
-        );
+        EmployeeResponse response = employeeMapper.toResponse(entity);
         log.info("Returning read employee: {}", response);
         return response;
     }
@@ -183,25 +162,10 @@ public class EmployeeServiceImpl implements EmployeeService {
             // company service data request by id
             for (EmployeeEntity employee : page) {
                 try {
-
                     CompanyResponse company = companyClient.getCompany(employee.getCompanyId());
-
-                    responses.add(new EmployeeFullResponse(
-                            employee.getId(),
-                            employee.getFirstName(),
-                            employee.getLastName(),
-                            employee.getPhone(),
-                            company
-                    ));
-
+                    responses.add(employeeMapper.toFullResponse(employee, company));
                 } catch (Exception e) {
-                    responses.add(new EmployeeFullResponse(
-                            employee.getId(),
-                            employee.getFirstName(),
-                            employee.getLastName(),
-                            employee.getPhone(),
-                            null
-                    ));
+                    responses.add(employeeMapper.toFullResponse(employee, null));
                 }
             }
             Page<? extends Employee> pageResponse = new PageImpl<>(responses, pageable, page.getTotalElements());
@@ -209,15 +173,7 @@ public class EmployeeServiceImpl implements EmployeeService {
             return pageResponse;
         }
 
-        Page<? extends Employee> pageResponse = page.map(employee ->
-                new EmployeeResponse(
-                        employee.getId(),
-                        employee.getFirstName(),
-                        employee.getLastName(),
-                        employee.getPhone(),
-                        employee.getCompanyId()
-                )
-        );
+        Page<? extends Employee> pageResponse = page.map(employeeMapper::toResponse);
         log.info("Returning all employees: {}", pageResponse);
         return pageResponse;
     }
