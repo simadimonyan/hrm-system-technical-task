@@ -62,6 +62,7 @@ public class EmployeeServiceImpl implements EmployeeService {
                 request.getPhone(),
                 request.getCompanyId()
         );
+        log.info("Returning saved employee: {}", employee);
         return employeeRepository.saveAndFlush(employee);
     }
 
@@ -78,38 +79,44 @@ public class EmployeeServiceImpl implements EmployeeService {
             try {
                 CompanyResponse company = companyClient.getCompany(entity.getCompanyId());
 
-                return new EmployeeFullResponse(
+                EmployeeFullResponse fullResponse = new EmployeeFullResponse(
                         entity.getId(),
                         entity.getFirstName(),
                         entity.getLastName(),
                         entity.getPhone(),
                         company
                 );
+                log.info("Returning read employee: {}", fullResponse);
+                return fullResponse;
 
             } catch (Exception e) {
-                return new EmployeeFullResponse(
+                EmployeeFullResponse fullResponse = new EmployeeFullResponse(
                         entity.getId(),
                         entity.getFirstName(),
                         entity.getLastName(),
                         entity.getPhone(),
                         null
                 );
+                log.info("Returning read employee: {}", fullResponse);
+                return fullResponse;
             }
         }
 
-        return new EmployeeResponse(
+        EmployeeResponse response = new EmployeeResponse(
                 entity.getId(),
                 entity.getFirstName(),
                 entity.getLastName(),
                 entity.getPhone(),
                 entity.getCompanyId()
         );
+        log.info("Returning read employee: {}", response);
+        return response;
     }
 
     @Transactional
     public EmployeeEntity updateEmployee(UUID id, EmployeeRequest request) {
 
-        var result = employeeRepository.findById(id).orElseThrow(
+        EmployeeEntity result = employeeRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Employee not found with id: " + id));
 
         // request idempotency check
@@ -127,12 +134,13 @@ public class EmployeeServiceImpl implements EmployeeService {
         employee.setPhone(request.getPhone());
         employee.setCompanyId(request.getCompanyId());
 
+        log.info("Returning updated employee: {}", employee);
         return employeeRepository.saveAndFlush(employee);
     }
 
     @Transactional
     public EmployeeEntity deleteEmployee(UUID id) {
-        var result = employeeRepository.findById(id).orElseThrow(
+        EmployeeEntity result = employeeRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Employee not found with id: " + id));
 
         if (result.getCompanyId() != null) {
@@ -142,6 +150,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         employeeRepository.deleteById(id);
         employeeRepository.flush();
+        log.info("Returning deleted employee: {}", result);
         return result;
     }
 
@@ -172,7 +181,7 @@ public class EmployeeServiceImpl implements EmployeeService {
             List<EmployeeFullResponse> responses = new ArrayList<>();
 
             // company service data request by id
-            for (var employee : page) {
+            for (EmployeeEntity employee : page) {
                 try {
 
                     CompanyResponse company = companyClient.getCompany(employee.getCompanyId());
@@ -195,10 +204,12 @@ public class EmployeeServiceImpl implements EmployeeService {
                     ));
                 }
             }
-            return new PageImpl<>(responses, pageable, page.getTotalElements());
+            Page<? extends Employee> pageResponse = new PageImpl<>(responses, pageable, page.getTotalElements());
+            log.info("Returning all employees: {}", pageResponse);
+            return pageResponse;
         }
 
-        return page.map(employee ->
+        Page<? extends Employee> pageResponse = page.map(employee ->
                 new EmployeeResponse(
                         employee.getId(),
                         employee.getFirstName(),
@@ -207,6 +218,8 @@ public class EmployeeServiceImpl implements EmployeeService {
                         employee.getCompanyId()
                 )
         );
+        log.info("Returning all employees: {}", pageResponse);
+        return pageResponse;
     }
 
 }
