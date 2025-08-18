@@ -14,7 +14,6 @@ import employee.web.dto.response.EmployeeFullResponse;
 import employee.web.dto.response.EmployeeResponse;
 import employee.web.dto.response.contracts.Employee;
 import employee.web.dto.response.mappers.EmployeeMapper;
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
