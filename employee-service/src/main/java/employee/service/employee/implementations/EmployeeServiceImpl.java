@@ -105,8 +105,7 @@ public class EmployeeServiceImpl implements EmployeeService {
             kafkaProducerService.sendAddEmployee(new AddEmployeeEvent(request.getCompanyId(), id));
         }
 
-        EmployeeEntity employee = employeeRepository.findById(id).orElseThrow(
-            () -> new EntityNotFoundException("Employee not found with id: " + id));
+        EmployeeEntity employee = findEmployeeOrThrow(id);
         employee.setFirstName(request.getFirstName());
         employee.setLastName(request.getLastName());
         employee.setPhone(request.getPhone());
