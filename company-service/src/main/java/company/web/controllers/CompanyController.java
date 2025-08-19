@@ -25,7 +25,7 @@ public class CompanyController {
     }
 
     @PostMapping
-    private CompanyEntity createCompany(@RequestBody CompanyRequest request) throws Exception {
+    private CompanyEntity createCompany(@RequestBody CompanyRequest request) {
         return companyService.createCompany(request);
     }
 

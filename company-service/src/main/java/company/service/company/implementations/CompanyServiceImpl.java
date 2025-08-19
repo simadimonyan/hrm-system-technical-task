@@ -13,6 +13,7 @@ import company.web.dto.response.CompanyFullResponse;
 import company.web.dto.response.CompanyResponse;
 import company.web.dto.response.EmployeeResponse;
 import company.web.dto.response.contracts.Company;
+import company.web.dto.response.mappers.CompanyMapper;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
@@ -33,14 +34,16 @@ public class CompanyServiceImpl implements CompanyService {
 
     private final CompanyRepository companyRepository;
     private final KafkaProducerService kafkaProducerService;
-
     private final EmployeeClient employeeClient;
+    private final CompanyMapper companyMapper;
+
 
     @Autowired
-    public CompanyServiceImpl(CompanyRepository companyRepository, KafkaProducerService kafkaProducerService, EmployeeClient employeeClient) {
+    public CompanyServiceImpl(CompanyRepository companyRepository, KafkaProducerService kafkaProducerService, EmployeeClient employeeClient, CompanyMapper companyMapper) {
         this.companyRepository = companyRepository;
         this.kafkaProducerService = kafkaProducerService;
         this.employeeClient = employeeClient;
+        this.companyMapper = companyMapper;
     }
 
     @Override
@@ -61,12 +64,7 @@ public class CompanyServiceImpl implements CompanyService {
             throw new CompanyAlreadyRegisteredException(request.getName());
         }
 
-        CompanyEntity companyEntity = new CompanyEntity(
-            id,
-            request.getName(),
-            request.getBudget(),
-            request.getEmployeeIds()
-        );
+        CompanyEntity companyEntity = companyMapper.toEntity(id, request);
 
         return companyRepository.saveAndFlush(companyEntity);
     }
@@ -74,8 +72,7 @@ public class CompanyServiceImpl implements CompanyService {
     @Override
     public Company readCompany(UUID id, boolean extraInfo) {
 
-        CompanyEntity company = companyRepository.findById(id).orElseThrow(
-                () -> new EntityNotFoundException("Company not found with id: " + id));
+        CompanyEntity company = findCompanyOrThrow(id);
 
         // extraInfo - employees data
         if (extraInfo) {
@@ -88,29 +85,16 @@ public class CompanyServiceImpl implements CompanyService {
                     employees.add(employee);
                 } catch (Exception ignored) {}
             }
-
-            return new CompanyFullResponse(
-                    company.getId(),
-                    company.getName(),
-                    company.getBudget(),
-                    employees
-                    );
+            return companyMapper.toFullResponse(company, employees);
         }
-
-        return new CompanyResponse(
-                company.getId(),
-                company.getName(),
-                company.getBudget(),
-                company.getEmployeeIds()
-        );
+        return companyMapper.toResponse(company);
     }
 
     @Override
     @Transactional
     public CompanyEntity updateCompany(UUID id, CompanyRequest request) {
 
-        CompanyEntity company = companyRepository.findById(id).orElseThrow(
-                () -> new EntityNotFoundException("Company not found with id: " + id));
+        CompanyEntity company = findCompanyOrThrow(id);
 
         log.info("--- {} {} {}", request.getName(), request.getBudget(), request.getEmployeeIds());
 
@@ -124,8 +108,7 @@ public class CompanyServiceImpl implements CompanyService {
             );
         }
 
-        CompanyEntity companyEntity = companyRepository.findById(id).orElseThrow(
-                () -> new EntityNotFoundException("Company not found with id: " + id));
+        CompanyEntity companyEntity = findCompanyOrThrow(id);
         companyEntity.setName(request.getName());
         companyEntity.setBudget(request.getBudget());
         companyEntity.setEmployeeIds(request.getEmployeeIds());
@@ -135,8 +118,7 @@ public class CompanyServiceImpl implements CompanyService {
     @Override
     @Transactional
     public CompanyEntity deleteCompany(UUID id) {
-        CompanyEntity companyEntity = companyRepository.findById(id).orElseThrow(
-                () -> new EntityNotFoundException("Company not found with id: " + id));
+        CompanyEntity companyEntity = findCompanyOrThrow(id);
         companyRepository.delete(companyEntity);
         companyRepository.flush();
         return companyEntity;
@@ -144,8 +126,7 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Transactional
     public void addCompanyEmployee(UUID companyId, UUID employeeId) {
-        CompanyEntity companyEntity = companyRepository.findById(companyId).orElseThrow(
-                () -> new EntityNotFoundException("Company not found with id: " + companyId));
+        CompanyEntity companyEntity = findCompanyOrThrow(companyId);
         List<UUID> ids = companyEntity.getEmployeeIds();
         ids.add(employeeId);
         companyEntity.setEmployeeIds(ids);
@@ -154,8 +135,7 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Transactional
     public void removeCompanyEmployee(UUID companyId, UUID employeeId) {
-        CompanyEntity companyEntity = companyRepository.findById(companyId).orElseThrow(
-                () -> new EntityNotFoundException("Company not found with id: " + companyId));
+        CompanyEntity companyEntity = findCompanyOrThrow(companyId);
         List<UUID> ids = companyEntity.getEmployeeIds();
         ids.remove(employeeId);
         companyEntity.setEmployeeIds(ids);
@@ -181,28 +161,26 @@ public class CompanyServiceImpl implements CompanyService {
                     } catch (Exception ignored) {}
                 }
 
-                companyResponses.add(
-                        new CompanyFullResponse(
-                                company.getId(),
-                                company.getName(),
-                                company.getBudget(),
-                                employees
-                        )
-                );
+                companyResponses.add(companyMapper.toFullResponse(company, employees));
             }
 
             Page<CompanyFullResponse> response = new PageImpl<>(companyResponses, pageable, page.getTotalElements());
             return response;
         }
 
-        Page<CompanyResponse> response = page.map(company ->
-                new CompanyResponse(
-                        company.getId(),
-                        company.getName(),
-                        company.getBudget(),
-                        company.getEmployeeIds()
-                ));
+        Page<CompanyResponse> response = page.map(companyMapper::toResponse);
         return response;
+    }
+
+    /**
+     * Utility method
+     * Finds CompanyEntity or throws CompanyNotFoundException
+     * @param id company
+     * @return CompanyEntity
+     */
+    private CompanyEntity findCompanyOrThrow(UUID id) {
+        return companyRepository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException("Company not found with id: " + id));
     }
 
 }
