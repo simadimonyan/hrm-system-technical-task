@@ -51,7 +51,7 @@ The Employee Service manages employee data and is accessible at `http://localhos
     "companyId": "UUID" (optional)
   }
   ```
-- **Response**: HTTP 200 (OK) with a success message.
+- **Response**: HTTP 200 (OK) with the created Employee DTO.
 - **Mock Request**:
   ```json
   POST http://localhost:8080/api/employees
@@ -67,7 +67,11 @@ The Employee Service manages employee data and is accessible at `http://localhos
 - **Mock Response**:
   ```json
   {
-    "message": "Successfully created!"
+    "id": "550e8400-e29b-41d4-a716-446655440000",
+    "firstName": "John",
+    "lastName": "Doe",
+    "phone": "123-456-7890",
+    "companyId": "550e8400-e29b-41d4-a716-446655440001"
   }
   ```
 
@@ -125,7 +129,7 @@ The Employee Service manages employee data and is accessible at `http://localhos
     "companyId": "UUID" (optional)
   }
   ```
-- **Response**: HTTP 200 (OK) with a success message.
+- **Response**: HTTP 200 (OK) with the updated Employee DTO.
 - **Mock Request**:
   ```json
   PUT http://localhost:8080/api/employees/550e8400-e29b-41d4-a716-446655440000
@@ -141,7 +145,11 @@ The Employee Service manages employee data and is accessible at `http://localhos
 - **Mock Response**:
   ```json
   {
-    "message": "Successfully updated!"
+    "id": "550e8400-e29b-41d4-a716-446655440000",
+    "firstName": "John",
+    "lastName": "Smith",
+    "phone": "987-654-3210",
+    "companyId": "550e8400-e29b-41d4-a716-446655440002"
   }
   ```
 
@@ -150,7 +158,7 @@ The Employee Service manages employee data and is accessible at `http://localhos
 - **Description**: Deletes an employee by their UUID and removes their association with a company, if applicable.
 - **Path Parameters**:
   - `id`: UUID (required)
-- **Response**: HTTP 200 (OK) with a success message.
+- **Response**: HTTP 200 (OK) with the deleted Employee DTO.
 - **Mock Request**:
   ```json
   DELETE http://localhost:8080/api/employees/550e8400-e29b-41d4-a716-446655440000
@@ -158,7 +166,11 @@ The Employee Service manages employee data and is accessible at `http://localhos
 - **Mock Response**:
   ```json
   {
-    "message": "Successfully deleted!"
+    "id": "550e8400-e29b-41d4-a716-446655440000",
+    "firstName": "John",
+    "lastName": "Doe",
+    "phone": "123-456-7890",
+    "companyId": null
   }
   ```
 
@@ -225,7 +237,7 @@ The Company Service manages company data and is accessible at `http://localhost:
     "employeeIds": ["UUID"] (optional)
   }
   ```
-- **Response**: HTTP 200 (OK) with a success message.
+- **Response**: HTTP 200 (OK) with the created Company DTO.
 - **Mock Request**:
   ```json
   POST http://localhost:8080/api/companies
@@ -240,7 +252,10 @@ The Company Service manages company data and is accessible at `http://localhost:
 - **Mock Response**:
   ```json
   {
-    "message": "Successfully created!"
+    "id": "550e8400-e29b-41d4-a716-446655440001",
+    "name": "Acme Corp",
+    "budget": 1000000,
+    "employeeIds": ["550e8400-e29b-41d4-a716-446655440000"]
   }
   ```
 
@@ -298,7 +313,7 @@ The Company Service manages company data and is accessible at `http://localhost:
     "employeeIds": ["UUID"] (optional)
   }
   ```
-- **Response**: HTTP 200 (OK) with a success message.
+- **Response**: HTTP 200 (OK) with the updated Company DTO.
 - **Mock Request**:
   ```json
   PUT http://localhost:8080/api/companies/550e8400-e29b-41d4-a716-446655440001
@@ -313,7 +328,10 @@ The Company Service manages company data and is accessible at `http://localhost:
 - **Mock Response**:
   ```json
   {
-    "message": "Successfully updated!"
+    "id": "550e8400-e29b-41d4-a716-446655440001",
+    "name": "Acme Corp Updated",
+    "budget": 2000000,
+    "employeeIds": ["550e8400-e29b-41d4-a716-446655440002"]
   }
   ```
 
@@ -322,7 +340,7 @@ The Company Service manages company data and is accessible at `http://localhost:
 - **Description**: Deletes a company by its UUID.
 - **Path Parameters**:
   - `id`: UUID (required)
-- **Response**: HTTP 200 (OK) with a success message.
+- **Response**: HTTP 200 (OK) with the deleted Company DTO.
 - **Mock Request**:
   ```json
   DELETE http://localhost:8080/api/companies/550e8400-e29b-41d4-a716-446655440001
@@ -330,59 +348,13 @@ The Company Service manages company data and is accessible at `http://localhost:
 - **Mock Response**:
   ```json
   {
-    "message": "Successfully deleted!"
+    "id": "550e8400-e29b-41d4-a716-446655440001",
+    "name": "Acme Corp",
+    "budget": 1000000,
+    "employeeIds": []
   }
   ```
-
-### Get All Companies
-- **Endpoint**: `GET /api/companies/all?page={page}&size={size}&sort={sort}&extraInfo={boolean}`
-- **Description**: Retrieves a paginated list of companies. If `extraInfo=true`, includes employee details.
-- **Query Parameters**:
-  - `page`: Integer (default: 0)
-  - `size`: Integer (default: 20)
-  - `sort`: String (e.g., `id,asc`)
-  - `extraInfo`: Boolean (default: `false`)
-- **Response**:
-  - If `extraInfo=false`: `Page<CompanyResponse>`
-  - If `extraInfo=true`: `Page<CompanyFullResponse>`
-- **Mock Request**:
-  ```json
-  GET http://localhost:8080/api/companies/all?page=0&size=10&extraInfo=true
-  ```
-- **Mock Response**:
-  ```json
-  {
-    "content": [
-      {
-        "id": "550e8400-e29b-41d4-a716-446655440001",
-        "name": "Acme Corp",
-        "budget": 1000000,
-        "employees": [
-          {
-            "id": "550e8400-e29b-41d4-a716-446655440000",
-            "firstName": "John",
-            "lastName": "Doe",
-            "phone": "123-456-7890",
-            "companyId": "550e8400-e29b-41d4-a716-446655440001"
-          }
-        ]
-      }
-    ],
-    "pageable": {
-      "sort": { "sorted": true, "unsorted": false, "empty": false },
-      "offset": 0,
-      "pageNumber": 0,
-      "pageSize": 10,
-      "paged": true,
-      "unpaged": false
-    },
-    "totalPages": 1,
-    "totalElements": 1,
-    "last": true
-  }
-  ```
-
----
+...
 
 ## Technology Stack
 - **Java**: Version 23
@@ -518,7 +490,7 @@ Once the services are running, you can interact with the HRM system as follows:
    - The `discovery-service` (`http://localhost:8084`) can be checked for registered services using its default Eureka dashboard.
    - The `config-service` (`http://localhost:8083`) provides configuration data; consult the service documentation for accessing specific configurations.
 
-This documentation was last updated on **Saturday, August 09, 2025, at 09:05 PM +04**.
+This documentation was last updated on **Tuesday, August 19, 2025, at 08:43 PM +04**.
 
 For further assistance or to report issues, contact work@dsimonyan.ru
 

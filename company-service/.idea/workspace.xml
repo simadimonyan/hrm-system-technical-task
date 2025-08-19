@@ -4,10 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e4eead7e-14e2-4015-a977-cdb7b135b622" name="Changes" comment="config-service: + config-files">
-      <change beforePath="$PROJECT_DIR$/../.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../compose.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/../compose.yaml" afterDir="false" />
-    </list>
+    <list default="true" id="e4eead7e-14e2-4015-a977-cdb7b135b622" name="Changes" comment="config-service: + jpa lombok data &amp; logs &amp; request data validation refactor" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -80,6 +77,7 @@
       <workItem from="1753883068159" duration="15146000" />
       <workItem from="1753954563101" duration="64009000" />
       <workItem from="1754570584802" duration="18535000" />
+      <workItem from="1755591402238" duration="6651000" />
     </task>
     <task id="LOCAL-00001" summary="company-service: + jpa">
       <option name="closed" value="true" />
@@ -177,7 +175,31 @@
       <option name="project" value="LOCAL" />
       <updated>1754755222834</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="config-service: + SOLID &amp; exceptions &amp; webclient refactor">
+      <option name="closed" value="true" />
+      <created>1755619556294</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1755619556294</updated>
+    </task>
+    <task id="LOCAL-00014" summary="config-service: + mapper &amp; throws refactor">
+      <option name="closed" value="true" />
+      <created>1755620338664</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1755620338664</updated>
+    </task>
+    <task id="LOCAL-00015" summary="config-service: + jpa lombok data &amp; logs &amp; request data validation refactor">
+      <option name="closed" value="true" />
+      <created>1755620921073</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1755620921073</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -204,6 +226,9 @@
     <MESSAGE value="company-service: + kafka events fix" />
     <MESSAGE value="company-service: + Dockerfile" />
     <MESSAGE value="config-service: + config-files" />
-    <option name="LAST_COMMIT_MESSAGE" value="config-service: + config-files" />
+    <MESSAGE value="config-service: + SOLID &amp; exceptions &amp; webclient refactor" />
+    <MESSAGE value="config-service: + mapper &amp; throws refactor" />
+    <MESSAGE value="config-service: + jpa lombok data &amp; logs &amp; request data validation refactor" />
+    <option name="LAST_COMMIT_MESSAGE" value="config-service: + jpa lombok data &amp; logs &amp; request data validation refactor" />
   </component>
 </project>
