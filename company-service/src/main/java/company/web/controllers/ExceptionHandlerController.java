@@ -1,6 +1,7 @@
 package company.web.controllers;
 
-import jakarta.persistence.EntityNotFoundException;
+import company.web.controllers.exceptions.CompanyAlreadyRegisteredException;
+import company.web.controllers.exceptions.CompanyNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -9,8 +10,13 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class ExceptionHandlerController {
 
-    @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<String> handleNotFound(EntityNotFoundException ex) {
+    @ExceptionHandler(CompanyNotFoundException.class)
+    public ResponseEntity<String> handleNotFound(CompanyNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(CompanyAlreadyRegisteredException.class)
+    public ResponseEntity<String> handleNotFound(CompanyAlreadyRegisteredException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
 
