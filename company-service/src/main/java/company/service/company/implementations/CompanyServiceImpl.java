@@ -65,7 +65,7 @@ public class CompanyServiceImpl implements CompanyService {
         }
 
         CompanyEntity companyEntity = companyMapper.toEntity(id, request);
-
+        log.info("Returning created company: {}", companyEntity);
         return companyRepository.saveAndFlush(companyEntity);
     }
 
@@ -85,9 +85,13 @@ public class CompanyServiceImpl implements CompanyService {
                     employees.add(employee);
                 } catch (Exception ignored) {}
             }
-            return companyMapper.toFullResponse(company, employees);
+            CompanyFullResponse response = companyMapper.toFullResponse(company, employees);
+            log.info("Returning company: {}", response);
+            return response;
         }
-        return companyMapper.toResponse(company);
+        CompanyResponse response = companyMapper.toResponse(company);
+        log.info("Returning company: {}", response);
+        return response;
     }
 
     @Override
@@ -95,8 +99,6 @@ public class CompanyServiceImpl implements CompanyService {
     public CompanyEntity updateCompany(UUID id, CompanyRequest request) {
 
         CompanyEntity company = findCompanyOrThrow(id);
-
-        log.info("--- {} {} {}", request.getName(), request.getBudget(), request.getEmployeeIds());
 
         // request idempotency check
         if (company.getEmployeeIds() != request.getEmployeeIds() && request.getEmployeeIds() != null) {
@@ -112,6 +114,7 @@ public class CompanyServiceImpl implements CompanyService {
         companyEntity.setName(request.getName());
         companyEntity.setBudget(request.getBudget());
         companyEntity.setEmployeeIds(request.getEmployeeIds());
+        log.info("Returning updated company: {}", companyEntity);
         return companyRepository.saveAndFlush(companyEntity);
     }
 
@@ -121,6 +124,7 @@ public class CompanyServiceImpl implements CompanyService {
         CompanyEntity companyEntity = findCompanyOrThrow(id);
         companyRepository.delete(companyEntity);
         companyRepository.flush();
+        log.info("Returning deleted company: {}", companyEntity);
         return companyEntity;
     }
 
@@ -165,10 +169,12 @@ public class CompanyServiceImpl implements CompanyService {
             }
 
             Page<CompanyFullResponse> response = new PageImpl<>(companyResponses, pageable, page.getTotalElements());
+            log.info("Returning all companies: {}", response);
             return response;
         }
 
         Page<CompanyResponse> response = page.map(companyMapper::toResponse);
+        log.info("Returning all companies: {}", response);
         return response;
     }
 
